@@ -1,0 +1,9 @@
+agents:
+  dealer:
+    name: Weather Dashboard
+    model: gpt-3.5-turbo
+    mcpServers: weatherServer
+
+mcpServers:
+  weatherServer:
+    url: http://localhost:3000/mcp

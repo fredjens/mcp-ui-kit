@@ -1,0 +1,125 @@
+.sidebar {
+  width: 280px;
+  min-width: 280px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.sidebar-section {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-section:last-child {
+  border-bottom: none;
+  margin-top: auto;
+}
+
+.sidebar-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  background: var(--bg-tertiary);
+}
+
+.sidebar-section-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.form-group input {
+  width: 100%;
+}
+
+.error-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  background: rgba(248, 81, 73, 0.1);
+  border: 1px solid rgba(248, 81, 73, 0.3);
+  border-radius: 6px;
+  color: var(--accent-red);
+  font-size: 12px;
+}
+
+.error-message svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.session-info {
+  padding: 10px 12px;
+  background: var(--bg-tertiary);
+  border-radius: 6px;
+}
+
+.session-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.session-id {
+  color: var(--accent-green);
+  font-size: 12px;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.sidebar-about {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-links a {
+  font-size: 13px;
+  color: var(--accent-blue);
+  text-decoration: none;
+}
+
+.sidebar-links a:hover {
+  text-decoration: underline;
+}
