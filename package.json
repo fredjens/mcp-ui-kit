@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "npm run start --workspace=demo-server & npm run dev --workspace=@mcp-ui-kit/inspector",
     "start": "npm run start --workspace=demo-server",
+    "start:inspector": "npm run dev --workspace=@mcp-ui-kit/inspector",
     "publish:library": "npm publish --workspace=packages/library"
   },
   "devDependencies": {

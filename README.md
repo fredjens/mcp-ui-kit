@@ -14,6 +14,8 @@ The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) enables AI 
 
 Built on top of [@mcp-ui/server](https://www.npmjs.com/package/@mcp-ui/server).
 
+[DEOMO](https://mcp-ui-kit-inspector.vercel.app/)
+
 ## Installation
 
 ```bash

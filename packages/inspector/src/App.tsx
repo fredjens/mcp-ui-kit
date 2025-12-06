@@ -28,7 +28,8 @@ export type ToolResult = {
 }
 
 function App() {
-  const [serverUrl, setServerUrl] = useState('http://localhost:3000/mcp')
+  const isLocal = window.location.hostname === 'localhost'
+  const [serverUrl, setServerUrl] = useState(isLocal ? 'http://localhost:3000/mcp' : 'https://mcp-ui-kit-demo-server.vercel.app/mcp')
   const {
     isConnected,
     isConnecting,
