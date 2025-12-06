@@ -47,6 +47,9 @@
   "license": "MIT",
   "dependencies": {
     "@mcp-ui/server": "^5.15.0",
+    "esbuild-wasm": "^0.25.0"
+  },
+  "optionalDependencies": {
     "esbuild": "^0.25.0"
   },
   "peerDependencies": {
