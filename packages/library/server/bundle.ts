@@ -7,6 +7,16 @@ const bundleCache = new Map<string, string>();
 const isDev = process.env.NODE_ENV !== 'production';
 
 async function runBuild(entryPath: string): Promise<esbuild.BuildResult<{ write: false }>> {
+    // Resolve node_modules paths - check both the entry's directory and common locations
+    const path = await import('path');
+    const entryDir = path.dirname(entryPath);
+    const nodePaths = [
+        path.join(entryDir, 'node_modules'),
+        path.join(entryDir, '..', 'node_modules'),
+        path.join(entryDir, '..', '..', 'node_modules'),
+        path.join(process.cwd(), 'node_modules'),
+    ];
+
     return esbuild.build({
         entryPoints: [entryPath],
         bundle: true,
@@ -19,6 +29,7 @@ async function runBuild(entryPath: string): Promise<esbuild.BuildResult<{ write:
             '.ts': 'ts',
         },
         minify: !isDev,
+        nodePaths,
     });
 }
 
