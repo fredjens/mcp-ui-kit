@@ -4,7 +4,6 @@ import { ToolsPanel } from './components/ToolsPanel'
 import { ResultsPane } from './components/ResultsPane'
 import { useMCP } from './hooks/useMCP'
 import './App.css'
-import { Eye, Sparkles } from 'lucide-react'
 
 export type Tool = {
   name: string
