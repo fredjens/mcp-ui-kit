@@ -1,5 +1,5 @@
 {
-  "name": "mcp-ui",
+  "name": "mcp-ui-kit",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -7,15 +7,15 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace=@mcp-ui/inspector",
-    "dev:server": "npm run dev --workspace=@mcp-ui/demo-server",
-    "dev:library": "npm run dev --workspace=@mcp-ui/library",
+    "dev": "npm run dev --workspace=@mcp-ui-kit/inspector",
+    "dev:server": "npm run dev --workspace=demo-server",
+    "dev:library": "npm run dev --workspace=@mcp-ui-kit",
     "dev:all": "npm run dev:server & npm run dev:library & npm run dev",
-    "build": "npm run build --workspace=@mcp-ui/inspector",
-    "start": "npm run start --workspace=@mcp-ui/demo-server",
-    "watch": "npm run watch --workspace=@mcp-ui/demo-server",
-    "watch:library": "npm run watch --workspace=@mcp-ui/library",
-    "watch:inspector": "npm run watch --workspace=@mcp-ui/inspector",
+    "build": "npm run build --workspace=@mcp-ui-kit/inspector",
+    "start": "npm run start --workspace=demo-server",
+    "watch": "npm run watch --workspace=demo-server",
+    "watch:library": "npm run watch --workspace=@mcp-ui-kit",
+    "watch:inspector": "npm run watch --workspace=@mcp-ui-kit/inspector",
     "inspector": "npx @modelcontextprotocol/inspector",
     "nanobot": "dotenv -e .env -- nanobot run ./nanobot.yaml"
   },

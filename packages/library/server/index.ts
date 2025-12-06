@@ -1,7 +1,7 @@
 import { createUIResource, RESOURCE_URI_META_KEY, type UIResource } from "@mcp-ui/server";
 import { fileURLToPath } from 'url';
-import { bundleComponent } from './bundle.ts';
-import { generateHtml } from './html.ts';
+import { bundleComponent } from './bundle.js';
+import { generateHtml } from './html.js';
 
 type UIComponentProps = {
     props?: Record<string, unknown>;

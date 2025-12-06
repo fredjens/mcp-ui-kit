@@ -9,14 +9,12 @@
     "isolatedModules": true,
     "declaration": true,
     "declarationMap": true,
-    "noEmit": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist",
     "jsx": "react-jsx",
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["server", "ui"]
+  "include": ["server/index.ts", "ui/index.ts"]
 }

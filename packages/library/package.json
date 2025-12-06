@@ -1,25 +1,75 @@
 {
-  "name": "@mcp-ui/library",
+  "name": "mcp-ui-kit",
   "version": "1.0.0",
+  "description": "MCP UI Kit - Create rich UI components for MCP servers",
   "type": "module",
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
-    "watch": "tsc --watch"
-  },
+  "main": "./dist/server/index.cjs",
+  "module": "./dist/server/index.js",
+  "types": "./dist/server/index.d.ts",
   "exports": {
-    "./server": "./server/index.ts",
-    "./ui": "./ui/index.ts"
+    "./server": {
+      "import": {
+        "types": "./dist/server/index.d.ts",
+        "default": "./dist/server/index.js"
+      },
+      "require": {
+        "types": "./dist/server/index.d.cts",
+        "default": "./dist/server/index.cjs"
+      }
+    },
+    "./ui": {
+      "import": {
+        "types": "./dist/ui/index.d.ts",
+        "default": "./dist/ui/index.js"
+      },
+      "require": {
+        "types": "./dist/ui/index.d.cts",
+        "default": "./dist/ui/index.cjs"
+      }
+    }
   },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node build.mjs",
+    "prepublishOnly": "npm run build",
+    "typecheck": "tsc --noEmit",
+    "publish": "npm publish"
+  },
+  "keywords": [
+    "mcp",
+    "ui",
+    "model-context-protocol",
+    "react",
+    "components"
+  ],
+  "license": "MIT",
   "dependencies": {
     "@mcp-ui/server": "^5.15.0",
-    "esbuild": "^0.27.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "esbuild": "^0.27.0"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
   },
   "devDependencies": {
+    "@types/node": "^20.10.0",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
