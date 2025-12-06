@@ -7,16 +7,40 @@ const bundleCache = new Map<string, string>();
 const isDev = process.env.NODE_ENV !== 'production';
 
 async function runBuild(entryPath: string): Promise<esbuild.BuildResult<{ write: false }>> {
-    // Resolve node_modules paths - check both the entry's directory and common locations
     const path = await import('path');
+    const fs = await import('fs');
     const entryDir = path.dirname(entryPath);
-    const nodePaths = [
+    
+    // Log paths for debugging
+    console.log('[mcp-ui-kit] entryPath:', entryPath);
+    console.log('[mcp-ui-kit] entryDir:', entryDir);
+    console.log('[mcp-ui-kit] cwd:', process.cwd());
+    console.log('[mcp-ui-kit] __dirname exists:', typeof __dirname !== 'undefined');
+    
+    // Check what exists
+    const pathsToCheck = [
         path.join(entryDir, 'node_modules'),
         path.join(entryDir, '..', 'node_modules'),
         path.join(entryDir, '..', '..', 'node_modules'),
         path.join(process.cwd(), 'node_modules'),
+        '/var/task/node_modules',
+        '/var/task/packages/demo-server/node_modules',
     ];
-
+    
+    for (const p of pathsToCheck) {
+        const exists = fs.existsSync(p);
+        console.log('[mcp-ui-kit] path exists?', p, exists);
+        if (exists) {
+            try {
+                const contents = fs.readdirSync(p).slice(0, 10);
+                console.log('[mcp-ui-kit] contents (first 10):', contents);
+            } catch (e) {}
+        }
+    }
+    
+    const nodePaths = pathsToCheck.filter(p => fs.existsSync(p));
+    console.log('[mcp-ui-kit] using nodePaths:', nodePaths);
+    
     return esbuild.build({
         entryPoints: [entryPath],
         bundle: true,
