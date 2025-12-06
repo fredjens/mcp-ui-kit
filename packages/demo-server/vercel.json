@@ -1,0 +1,11 @@
+{
+  "functions": {
+    "index.ts": {
+      "includeFiles": ["components/**/*"]
+    }
+  },
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ]
+}
+

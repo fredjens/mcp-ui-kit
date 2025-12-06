@@ -3,7 +3,7 @@ import { Sidebar } from './components/Sidebar'
 import { ToolsPanel } from './components/ToolsPanel'
 import { ResultsPane } from './components/ResultsPane'
 import { useMCP } from './hooks/useMCP'
-import { Analytics } from '@vercel/analytics/next';
+import { Analytics } from '@vercel/analytics/react';
 
 import './App.css'
 
