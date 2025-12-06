@@ -1,38 +1,12 @@
+import * as esbuild from 'esbuild';
+
 // Cache bundled JS per entry path (only used in production)
 const bundleCache = new Map<string, string>();
 
 // In development mode, skip cache to allow hot-reloading of component changes
 const isDev = process.env.NODE_ENV !== 'production';
 
-// Dynamic esbuild loader - tries native first, falls back to wasm for serverless
-let esbuildModule: typeof import('esbuild') | null = null;
-let wasmInitialized = false;
-
-async function getEsbuild(): Promise<typeof import('esbuild')> {
-    if (esbuildModule) return esbuildModule;
-
-    // Try native esbuild first (faster, works locally)
-    try {
-        esbuildModule = await import('esbuild');
-        // Test if native binary works
-        await esbuildModule.transform('', { loader: 'js' });
-        return esbuildModule;
-    } catch {
-        // Fall back to wasm (works on serverless without native binaries)
-        const wasm = await import('esbuild-wasm');
-        if (!wasmInitialized) {
-            await wasm.initialize({
-                wasmURL: `https://unpkg.com/esbuild-wasm@${wasm.version}/esbuild.wasm`,
-            });
-            wasmInitialized = true;
-        }
-        esbuildModule = wasm as typeof import('esbuild');
-        return esbuildModule;
-    }
-}
-
-async function runBuild(entryPath: string): Promise<import('esbuild').BuildResult<{ write: false }>> {
-    const esbuild = await getEsbuild();
+async function runBuild(entryPath: string): Promise<esbuild.BuildResult<{ write: false }>> {
     return esbuild.build({
         entryPoints: [entryPath],
         bundle: true,
@@ -53,7 +27,7 @@ export async function bundleComponent(entryPath: string): Promise<string> {
         return bundleCache.get(entryPath)!;
     }
 
-    let result: import('esbuild').BuildResult<{ write: false }>;
+    let result: esbuild.BuildResult<{ write: false }>;
 
     try {
         result = await runBuild(entryPath);
@@ -67,7 +41,6 @@ export async function bundleComponent(entryPath: string): Promise<string> {
         );
         if (isServiceError) {
             // Force stop the dead service, then retry - esbuild will start fresh
-            const esbuild = await getEsbuild();
             await esbuild.stop();
             result = await runBuild(entryPath);
         } else {
