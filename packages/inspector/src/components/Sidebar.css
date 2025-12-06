@@ -124,3 +124,8 @@
 .sidebar-links a:hover {
   text-decoration: underline;
 }
+
+.small {
+  font-size: 12px;
+  color: var(--text-secondary);
+}

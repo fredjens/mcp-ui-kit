@@ -52,6 +52,10 @@ export function Sidebar({
             {isConnected ? 'Disconnect' : 'Connect'}
           </Button>
 
+          <p className="small">
+            Also works with local MCP servers.
+          </p>
+
           {error && (
             <div className="error-message">
               <AlertCircle size={14} />
@@ -74,11 +78,10 @@ export function Sidebar({
         </div>
         <div className="sidebar-section-content">
           <p className="sidebar-about">
-            MCP UI Inspector is a developer tool for testing MCP servers with UI capabilities.
-          </p>
+            MCP UI Inspector is a developer tool for testing MCP servers with UI capabilities.  </p>
           <div className="sidebar-links">
-            <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener noreferrer">
-              MCP Documentation
+            <a href="https://github.com/fredjens/mcp-ui-kit" target="_blank" rel="noopener noreferrer">
+              MCP UI Kit
             </a>
           </div>
         </div>
