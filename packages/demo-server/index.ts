@@ -5,7 +5,7 @@ import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
 import { randomUUID } from 'crypto';
 import { z } from 'zod';
-import { createUI } from '@mcp-ui/library/server';
+import { createUI } from 'mcp-ui-kit/server';
 
 const app = express();
 const port = 3000;

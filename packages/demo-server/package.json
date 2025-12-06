@@ -9,7 +9,7 @@
     "watch": "npx nodemon --exec 'npx ts-node index.ts'"
   },
   "dependencies": {
-    "@mcp-ui/library": "*",
+    "mcp-ui-kit": "*",
     "@modelcontextprotocol/sdk": "^1.23.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
