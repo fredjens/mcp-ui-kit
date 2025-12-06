@@ -7,23 +7,12 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace=@mcp-ui-kit/inspector",
-    "dev:server": "npm run dev --workspace=demo-server",
-    "dev:library": "npm run dev --workspace=@mcp-ui-kit",
-    "dev:all": "npm run dev:server & npm run dev:library & npm run dev",
-    "build": "npm run build --workspace=@mcp-ui-kit/inspector",
+    "build": "npm run build --workspace=packages/library",
+    "dev": "npm run start --workspace=demo-server & npm run dev --workspace=@mcp-ui-kit/inspector",
     "start": "npm run start --workspace=demo-server",
-    "start:prod": "NODE_ENV=production npm run start --workspace=demo-server",
-    "watch": "npm run watch --workspace=demo-server",
-    "watch:library": "npm run watch --workspace=@mcp-ui-kit",
-    "watch:inspector": "npm run watch --workspace=@mcp-ui-kit/inspector",
-    "inspector": "npx @modelcontextprotocol/inspector",
-    "nanobot": "dotenv -e .env -- nanobot run ./nanobot.yaml",
-    "nanobot:prod": "NODE_ENV=production npm run start & dotenv -e .env -- nanobot run ./nanobot.yaml",
     "publish:library": "npm publish --workspace=packages/library"
   },
   "devDependencies": {
-    "dotenv-cli": "^11.0.0",
     "typescript": "^5.6.3"
   }
 }
