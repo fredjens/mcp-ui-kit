@@ -5,7 +5,7 @@ Build interactive React UIs for MCP tools.
 ## Installation
 
 ```bash
-npm install @mcp-ui-kit
+npm install mcp-ui-kit
 ```
 
 ## Server Usage
@@ -13,7 +13,7 @@ npm install @mcp-ui-kit
 Create UI components that bundle on-demand:
 
 ```typescript
-import { createUI } from '@mcp-ui-kit/server';
+import { createUI } from 'mcp-ui-kit/server';
 
 const dashboardUI = createUI('my-dashboard', import.meta.resolve('./MyComponent.tsx'));
 
@@ -32,7 +32,7 @@ server.registerTool('dashboard', {
 Helper functions for your React components:
 
 ```typescript
-import { sendPrompt, callTool, useProps } from '@mcp-ui-kit/react';
+import { sendPrompt, callTool, useProps } from 'mcp-ui-kit/ui';
 
 function MyComponent() {
   const { title } = useProps({ title: 'Default' });
@@ -53,7 +53,7 @@ function MyComponent() {
 
 ## API
 
-### Server (`@mcp-ui-kit/server`)
+### Server (`mcp-ui-kit/server`)
 
 **`createUI(name, entryUrl)`** - Creates a UI component
 - `name`: Component identifier
@@ -72,9 +72,7 @@ createUI('dashboard', require.resolve('./MyComponent.tsx'));
 createUI('dashboard', path.join(__dirname, './MyComponent.tsx'));
 ```
 
-The library automatically converts `file://` URLs to file paths, so both approaches work seamlessly.
-
-### UI (`@mcp-ui/library/ui`)
+### UI (`mcp-ui-kit/ui`)
 
 - **`useProps(defaults)`** - Get props passed from the server
 - **`sendPrompt(message)`** - Send a message to the AI chat
