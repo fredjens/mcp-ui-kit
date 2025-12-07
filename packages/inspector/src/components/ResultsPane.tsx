@@ -100,6 +100,14 @@ export function ResultsPane({ result, isExecuting, onReload }: ResultsPaneProps)
             Events
             {events.length > 0 && <span className="tab-count">{events.length}</span>}
           </button>
+          {/*           {activeTab === 'events' && events.length > 0 && (
+            <Button
+              variant="ghost"
+              onClick={clearEvents}
+              title="Clear events"
+              children="Clear events"
+            />
+          )} */}
         </div>
 
         <div className="results-actions">
@@ -116,14 +124,6 @@ export function ResultsPane({ result, isExecuting, onReload }: ResultsPaneProps)
                 </span>
               )}
             </div>
-          )}
-          {activeTab === 'events' && events.length > 0 && (
-            <Button
-              variant="ghost"
-              onClick={clearEvents}
-              title="Clear events"
-              icon={<Trash2 size={14} />}
-            />
           )}
           {onReload && (
             <Button

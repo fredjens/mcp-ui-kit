@@ -29,26 +29,75 @@ export function ToolsPanel({
   const [jsonMode, setJsonMode] = useState(false)
   const [jsonInput, setJsonInput] = useState('{}')
 
-  // Reset params when tool changes
-  useEffect(() => {
-    if (selectedTool) {
-      const defaultParams: Record<string, string> = {}
-      const props = selectedTool.inputSchema?.properties || {}
+  // Build initial params for a tool (string values for form state)
+  const buildInitialParams = (tool: Tool): Record<string, string> => {
+    const initialParams: Record<string, string> = {}
+    const props = tool.inputSchema?.properties || {}
 
-      for (const [key, value] of Object.entries(props)) {
-        if (value.default !== undefined) {
-          defaultParams[key] = typeof value.default === 'string'
-            ? value.default
-            : JSON.stringify(value.default)
-        } else {
-          defaultParams[key] = ''
+    for (const [key, value] of Object.entries(props)) {
+      if (value.default !== undefined) {
+        initialParams[key] = typeof value.default === 'string'
+          ? value.default
+          : JSON.stringify(value.default)
+      } else {
+        initialParams[key] = ''
+      }
+    }
+
+    return initialParams
+  }
+
+  // Convert string params to typed params for execution
+  const buildExecuteParams = (tool: Tool, stringParams: Record<string, string>): Record<string, unknown> => {
+    const finalParams: Record<string, unknown> = {}
+    const props = tool.inputSchema?.properties || {}
+
+    for (const [key, value] of Object.entries(stringParams)) {
+      const propType = props[key]?.type
+
+      // Skip empty optional fields (but always include if there's a value or it's required)
+      const isRequired = tool.inputSchema?.required?.includes(key)
+      if (!value && !isRequired && !props[key]?.default) continue
+
+      // Try to parse as JSON for arrays/objects
+      if (value && (value.startsWith('[') || value.startsWith('{'))) {
+        try {
+          finalParams[key] = JSON.parse(value)
+          continue
+        } catch {
+          // Fall through to string
         }
       }
 
-      setParams(defaultParams)
-      setJsonInput(JSON.stringify(defaultParams, null, 2))
+      // Convert to appropriate type
+      if (propType === 'number' || propType === 'integer') {
+        finalParams[key] = value ? Number(value) : undefined
+      } else if (propType === 'boolean') {
+        finalParams[key] = value === 'true'
+      } else {
+        finalParams[key] = value
+      }
+    }
+
+    return finalParams
+  }
+
+  // Reset params when tool changes
+  useEffect(() => {
+    if (selectedTool) {
+      const initialParams = buildInitialParams(selectedTool)
+      setParams(initialParams)
+      setJsonInput(JSON.stringify(initialParams, null, 2))
     }
   }, [selectedTool])
+
+  // Handle tool click - select and execute with defaults
+  const handleToolClick = (tool: Tool) => {
+    onSelectTool(tool)
+    const initialParams = buildInitialParams(tool)
+    const executeParams = buildExecuteParams(tool, initialParams)
+    onExecuteTool(tool.name, executeParams)
+  }
 
   const handleExecute = () => {
     if (!selectedTool) return
@@ -63,34 +112,7 @@ export function ToolsPanel({
         return
       }
     } else {
-      const props = selectedTool.inputSchema?.properties || {}
-
-      for (const [key, value] of Object.entries(params)) {
-        const propType = props[key]?.type
-
-        // Skip empty optional fields (but always include if there's a value or it's required)
-        const isRequired = selectedTool.inputSchema?.required?.includes(key)
-        if (!value && !isRequired && !props[key]?.default) continue
-
-        // Try to parse as JSON for arrays/objects
-        if (value && (value.startsWith('[') || value.startsWith('{'))) {
-          try {
-            finalParams[key] = JSON.parse(value)
-            continue
-          } catch {
-            // Fall through to string
-          }
-        }
-
-        // Convert to appropriate type
-        if (propType === 'number' || propType === 'integer') {
-          finalParams[key] = value ? Number(value) : undefined
-        } else if (propType === 'boolean') {
-          finalParams[key] = value === 'true'
-        } else {
-          finalParams[key] = value
-        }
-      }
+      finalParams = buildExecuteParams(selectedTool, params)
     }
 
     onExecuteTool(selectedTool.name, finalParams)
@@ -162,7 +184,7 @@ export function ToolsPanel({
                 <button
                   key={tool.name}
                   className={`tool-item ${selectedTool?.name === tool.name ? 'selected' : ''}`}
-                  onClick={() => onSelectTool(tool)}
+                  onClick={() => handleToolClick(tool)}
                 >
                   {selectedTool?.name === tool.name ? <CircleDot size={14} className="tool-chevron" /> : <Circle size={14} className="tool-chevron" />}
                   <div className="tool-info">

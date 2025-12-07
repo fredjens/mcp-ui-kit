@@ -289,17 +289,35 @@
 /* Mobile styles */
 @media (max-width: 768px) {
   .tools-panel {
+    flex: none;
     min-width: 0;
-    max-width: none;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .refresh-button {
+    min-height: 28px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .tools-content {
+    flex: none;
+    width: 100%;
+    max-width: 100%;
   }
 
   .tools-layout {
+    flex: none;
     flex-direction: column;
+    width: 100%;
+    max-width: 100%;
   }
 
   .tools-list {
     width: 100%;
     min-width: 0;
+    max-width: 100%;
     max-height: 200px;
     border-right: none;
     border-bottom: 1px solid var(--border-color);
@@ -308,10 +326,13 @@
 
   .tool-item {
     padding: 12px 16px;
+    min-height: auto;
   }
 
   .tool-detail {
-    min-height: 300px;
+    flex: none;
+    width: 100%;
+    max-width: 100%;
   }
 
   .tool-detail-header {
@@ -319,7 +340,9 @@
   }
 
   .tool-params {
+    flex: none;
     padding: 12px 16px;
+    overflow: visible;
   }
 
   .tool-actions {
