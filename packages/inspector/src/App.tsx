@@ -28,6 +28,8 @@ export type ToolResult = {
   htmlContent: string | null
   isError: boolean
   timestamp: Date
+  executionTime: number // milliseconds
+  bundleSize: number | null // bytes, null if no UI
 }
 
 function App() {
@@ -79,7 +81,9 @@ function App() {
         textContent: err instanceof Error ? err.message : 'Unknown error',
         htmlContent: null,
         isError: true,
-        timestamp: new Date()
+        timestamp: new Date(),
+        executionTime: 0,
+        bundleSize: null
       })
     } finally {
       setIsExecuting(false)

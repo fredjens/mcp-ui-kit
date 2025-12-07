@@ -16,6 +16,8 @@ interface UseMCPReturn {
     textContent: string
     htmlContent: string | null
     isError: boolean
+    executionTime: number
+    bundleSize: number | null
   }>
 }
 
@@ -195,6 +197,8 @@ export function useMCP(): UseMCPReturn {
       throw new Error('Not connected')
     }
 
+    const startTime = performance.now()
+
     // Build headers - only include session ID if present (stateful server)
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
@@ -216,6 +220,8 @@ export function useMCP(): UseMCPReturn {
     })
 
     const text = await response.text()
+    const executionTime = Math.round(performance.now() - startTime)
+
     const result = parseSSE(text) as {
       result?: {
         content: Array<{
@@ -232,6 +238,8 @@ export function useMCP(): UseMCPReturn {
         textContent: result.error.message,
         htmlContent: null,
         isError: true,
+        executionTime,
+        bundleSize: null,
       }
     }
 
@@ -247,10 +255,15 @@ export function useMCP(): UseMCPReturn {
       }
     }
 
+    // Calculate bundle size (in bytes) if there's HTML content
+    const bundleSize = htmlContent ? new Blob([htmlContent]).size : null
+
     return {
       textContent,
       htmlContent,
       isError: false,
+      executionTime,
+      bundleSize,
     }
   }, [isConnected, sessionId])
 
