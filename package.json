@@ -9,8 +9,10 @@
   "scripts": {
     "dev": "npm run start --workspace=demo-server & npm run dev --workspace=@mcp-ui-kit/inspector",
     "start": "npm run start --workspace=demo-server",
+    "build": "npm run build --workspace=packages/library",
     "start:inspector": "npm run dev --workspace=@mcp-ui-kit/inspector",
-    "publish:library": "npm publish --workspace=packages/library"
+    "publish:library": "npm publish --workspace=packages/library",
+    "nanobot": "export $(cat .env | xargs) && nanobot run ./nanobot.yaml"
   },
   "devDependencies": {
     "typescript": "^5.6.3"

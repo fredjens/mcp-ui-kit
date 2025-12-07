@@ -120,6 +120,22 @@ createUI('dashboard', require.resolve('./Dashboard.tsx'));       // CommonJS
 - **`useProps(defaults)`** — Get props passed from the server
 - **`sendPrompt(message)`** — Send a message to the AI chat
 - **`callTool(name, params)`** — Invoke an MCP tool
+- **`resizeToContent(element?)`** — Request parent to resize iframe to fit content
+- **`useResizeToContent()`** — Hook that auto-notifies parent when content size changes
+
+```tsx
+import { useResizeToContent } from 'mcp-ui-kit/ui';
+
+function MyComponent() {
+  const containerRef = useResizeToContent();
+  
+  return (
+    <div ref={containerRef}>
+      {/* Content that may change size */}
+    </div>
+  );
+}
+```
 
 ## Development
 

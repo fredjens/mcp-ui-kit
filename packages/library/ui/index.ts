@@ -1,3 +1,4 @@
+import { useEffect, useRef, type RefObject } from 'react';
 
 /**
  * Send a prompt to the parent window
@@ -22,6 +23,64 @@ export function callTool(toolName: string, params: Record<string, unknown> = {})
             params: params
         }
     }, '*');
+}
+
+/**
+ * Request the parent to resize the iframe to fit content
+ * Call this after your content has rendered
+ */
+export function resizeToContent(element?: HTMLElement) {
+    const target = element || document.body;
+
+    // Use scrollHeight/scrollWidth for full content size (not just visible area)
+    // Also account for any margin on the element
+    const style = window.getComputedStyle(target);
+    const marginTop = parseFloat(style.marginTop) || 0;
+    const marginBottom = parseFloat(style.marginBottom) || 0;
+    const marginLeft = parseFloat(style.marginLeft) || 0;
+    const marginRight = parseFloat(style.marginRight) || 0;
+
+    // For body, also account for body padding/margin
+    let extraHeight = 0;
+    let extraWidth = 0;
+    if (target !== document.body) {
+        const bodyStyle = window.getComputedStyle(document.body);
+        extraHeight = (parseFloat(bodyStyle.paddingTop) || 0) + (parseFloat(bodyStyle.paddingBottom) || 0);
+        extraWidth = (parseFloat(bodyStyle.paddingLeft) || 0) + (parseFloat(bodyStyle.paddingRight) || 0);
+    }
+
+    const width = Math.ceil(target.scrollWidth + marginLeft + marginRight + extraWidth);
+    const height = Math.ceil(target.scrollHeight + marginTop + marginBottom + extraHeight);
+
+    window.parent.postMessage({
+        type: 'resize',
+        payload: { width, height }
+    }, '*');
+}
+
+/**
+ * Hook that automatically notifies parent when content size changes
+ * Returns a ref to attach to your container element
+ */
+export function useResizeToContent<T extends HTMLElement = HTMLDivElement>(): RefObject<T | null> {
+    const ref = useRef<T | null>(null);
+
+    useEffect(() => {
+        const element = ref.current;
+        if (!element) return;
+
+        const observer = new ResizeObserver(() => {
+            resizeToContent(element);
+        });
+
+        observer.observe(element);
+        // Initial resize
+        resizeToContent(element);
+
+        return () => observer.disconnect();
+    }, []);
+
+    return ref;
 }
 
 /**

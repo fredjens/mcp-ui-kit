@@ -1,5 +1,6 @@
 import React from 'react';
 import { styles } from './styles';
+import { useResizeToContent } from 'mcp-ui-kit/ui';
 
 interface WeatherData {
   temp: number;
@@ -35,6 +36,7 @@ const weatherDataByCity: WeatherData = {
 
 
 export function WeatherDashboard() {
+  const containerRef = useResizeToContent();
   const data = weatherDataByCity;
   const currentDate = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
@@ -60,7 +62,7 @@ ${data.forecast.map(day => `${day.day}: ${day.icon} ${day.temp}°C`).join('\n')}
   return (
     <>
       <style>{styles}</style>
-      <div className="container">
+      <div className="container" ref={containerRef}>
         <div className="card">
           <div className="header">
             <h1>

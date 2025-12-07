@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { generateMockStockData } from './stock-utils';
-import { callTool, sendPrompt, useProps } from 'mcp-ui-kit/ui';
+import { callTool, sendPrompt, useProps, useResizeToContent } from 'mcp-ui-kit/ui';
 
 
 // Types for props passed from the tool handler
@@ -30,6 +30,9 @@ export function StockDashboard() {
     symbols: ['AAPL', 'GOOGL', 'MSFT'],
     timeframe: '1M',
   });
+
+  // Auto-notify parent when content size changes
+  const containerRef = useResizeToContent();
 
   const stocks: StockData[] = generateMockStockData(props.symbols);
 
@@ -70,7 +73,7 @@ Please analyze this portfolio and provide recommendations.`;
   return (
     <>
       <style>{styles}</style>
-      <div className="dashboard">
+      <div className="dashboard" ref={containerRef}>
         {/* Header */}
         <div className="header">
           <div>
